@@ -1,0 +1,121 @@
+/* Terminal Window */
+.terminal-window {
+    display: flex;
+    flex-direction: column;
+    background: #000; /* Classic terminal black background */
+    border: 1px solid #555;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    position: absolute;
+  }
+  
+  /* Header (Title Bar) */
+  .terminal-header {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a1a1a;
+    color: #fff;
+    padding: 5px 10px;
+    cursor: grab;
+  }
+  
+  .header-title {
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+  
+  /* Close Button */
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 2px 6px;
+  }
+  
+  .close-btn:hover {
+    background: #ff0000;
+    color: #fff;
+  }
+  
+  /* Terminal Body (Output) */
+  .terminal-body {
+    flex: 1 1 auto;
+    padding: 10px;
+    overflow-y: auto;
+    color: #0f0; /* Green text for a classic look */
+    font-family: 'Consolas', monospace;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  /* Custom Scrollbar Styling for Terminal Body */
+  .terminal-body::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .terminal-body::-webkit-scrollbar-track {
+    background: #000;
+  }
+  
+  .terminal-body::-webkit-scrollbar-thumb {
+    background: #fff;
+    border-radius: 4px;
+  }
+  
+  .terminal-body::-webkit-scrollbar-thumb:hover {
+    background: #ddd;
+  }
+  
+  /* For Firefox */
+  .terminal-body {
+    scrollbar-width: thin;
+    scrollbar-color: #fff #000;
+  }
+  
+  /* Terminal Input */
+  .terminal-input {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    background: #000;
+    margin-top: auto; /* This pushes the input to the bottom */
+  }
+  
+  .prompt {
+    margin-right: 8px;
+    color: #0f0;
+    font-family: 'Consolas', monospace;
+  }
+  
+  .terminal-input input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #0f0;
+    font-family: 'Consolas', monospace;
+    font-size: 1rem;
+  }
+  
+  /* Command text style */
+  .terminal-command {
+    color: #0f0;
+    font-weight: bold;
+  }
+  
+  /* Resize handle */
+  .resize-handle {
+    width: 15px;
+    height: 15px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    cursor: se-resize;
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
