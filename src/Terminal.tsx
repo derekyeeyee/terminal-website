@@ -125,7 +125,7 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
       case 'help':
         response =
           'Available commands: about, projects, contact, clear.\n' +
-          '-------------------------------------------------------------------------------------\n' +
+          '--------------------------------------------------------------------\n' +
           'about: Learn more about me!\n' +
           'projects: See all of my projects!\n' +
           'contact: See my contact information!\n' +
