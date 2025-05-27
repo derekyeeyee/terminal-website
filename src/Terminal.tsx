@@ -8,9 +8,9 @@ interface TerminalProps {
 
 const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
   const initialLogs = [
-    'Welcome to My Portfolio!',
+    'Welcome to My Portfolio!\n',
     'Type "help" for available commands.',
-    'Feel free to drag me (the terminal) around or resize me for visibility :)',
+    'Feel free to drag me (the terminal) around or resize me for visibility :)\n',
   ];
 
   const [logs, setLogs] = useState<string[]>(initialLogs);
@@ -148,13 +148,15 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
     switch (cmd) {
       case 'help':
         response =
+          '\n' +
           'Available commands: about, projects, contact, clear.\n' +
           '--------------------------------------------------------------------\n' +
           'about: Learn more about me!\n' +
           'projects: See all of my projects!\n' +
           'contact: See my contact information!\n' +
-          'clear: Clear all the text in the terminal!\n' +
-          'Use these commands to navigate through the different sections!';
+          'clear: Clear all the text in the terminal!' +
+          '\n--------------------------------------------------------------------\n' +
+          'Use these commands to navigate through the different sections!\n';
         break;
       case 'about': {
         const id = popupCounter;
@@ -177,7 +179,11 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
         ]);
         setPopupCounter((prev) => prev + 1);
         setHighestZ(newZ);
-        response = 'Opening About page...';
+        response = 
+        '\n' +
+        'Opening About page...' +
+        '\n';
+        
         break;
       }
       case 'projects': {
@@ -204,7 +210,10 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
         ]);
         setPopupCounter((prev) => prev + 1);
         setHighestZ(newZ);
-        response = 'Opening Projects page...';
+        response = 
+        '\n' +
+        'Opening Projects page...' +
+        '\n';
         break;
       }
       case 'contact': {
@@ -231,7 +240,10 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
         ]);
         setPopupCounter((prev) => prev + 1);
         setHighestZ(newZ);
-        response = 'Opening Contact page...';
+        response = 
+        '\n' +
+        'Opening Contact page...' +
+        '\n';
         break;
       }
       default:
