@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Terminal.css';
+import PopupWindow from './PopupWindow';
 
 interface TerminalProps {
   onClose: () => void;
@@ -14,6 +15,8 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
 
   const [logs, setLogs] = useState<string[]>(initialLogs);
   const [input, setInput] = useState('');
+  const [popups, setPopups] = useState<{ id: number; title: string; content: React.ReactNode }[]>([]);
+  const [popupCounter, setPopupCounter] = useState(0);
 
   // Ref for the terminal window and body (for auto scrolling)
   const terminalRef = useRef<HTMLDivElement>(null);
@@ -72,7 +75,10 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
         const deltaY = e.clientY - resizingDataRef.current.startY;
         setDimensions({
           width: Math.max(300, resizingDataRef.current.initialWidth + deltaX), // minimum width: 300px
-          height: Math.max(200, resizingDataRef.current.initialHeight + deltaY), // minimum height: 200px
+          height: Math.max(
+            200,
+            Math.min(600, resizingDataRef.current.initialHeight + deltaY)
+          ), // minimum height: 200px, maximum height: 600px
         });
       }
     };
@@ -132,15 +138,74 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
           'clear: Clear all the text in the terminal!\n' +
           'Use these commands to navigate through the different sections!';
         break;
-      case 'about':
-        response = 'About: I am a passionate developer with a knack for modern web design.';
+      case 'about': {
+        const id = popupCounter;
+        setPopups((prev) => [
+          ...prev,
+          {
+            id,
+            title: 'About Me',
+            content: (
+              <>
+                <h1>About Me</h1>
+                <p>I am a passionate developer with experience in full-stack development. I specialize in building modern web applications using React, Node.js, and more.</p>
+                <p>My interests include UI/UX design and creating dynamic user experiences.</p>
+              </>
+            ),
+          },
+        ]);
+        setPopupCounter((prev) => prev + 1);
+        response = 'Opening About page...';
         break;
-      case 'projects':
-        response = 'Projects: Here are some of my featured works...';
+      }
+      case 'projects': {
+        const id = popupCounter;
+        setPopups((prev) => [
+          ...prev,
+          {
+            id,
+            title: 'Projects',
+            content: (
+              <>
+                <h1>Projects</h1>
+                <p>Here are some featured projects:</p>
+                <ul>
+                  <li><strong>Project A</strong>: A web app for task management and productivity.</li>
+                  <li><strong>Project B</strong>: An innovative solution for e-commerce platforms.</li>
+                  <li><strong>Project C</strong>: A mobile-friendly social networking site.</li>
+                </ul>
+              </>
+            ),
+          },
+        ]);
+        setPopupCounter((prev) => prev + 1);
+        response = 'Opening Projects page...';
         break;
-      case 'contact':
-        response = 'Contact: email@example.com';
+      }
+      case 'contact': {
+        const id = popupCounter;
+        setPopups((prev) => [
+          ...prev,
+          {
+            id,
+            title: 'Contact',
+            content: (
+              <>
+                <h1>Contact Me</h1>
+                <p>Feel free to reach out via the following channels:</p>
+                <ul>
+                  <li>Email: <a href="mailto:email@example.com">email@example.com</a></li>
+                  <li>LinkedIn: <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noreferrer">My LinkedIn</a></li>
+                  <li>GitHub: <a href="https://github.com/yourprofile" target="_blank" rel="noreferrer">My GitHub</a></li>
+                </ul>
+              </>
+            ),
+          },
+        ]);
+        setPopupCounter((prev) => prev + 1);
+        response = 'Opening Contact page...';
         break;
+      }
       default:
         response = `Command not recognized: ${command}`;
     }
@@ -156,59 +221,70 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
   };
 
   return (
-    <div
-      ref={terminalRef}
-      className="terminal-window"
-      style={{
-        left: position.x,
-        top: position.y,
-        position: 'absolute',
-        width: `${dimensions.width}px`,
-        height: `${dimensions.height}px`,
-      }}
-    >
-      <div className="terminal-header" onMouseDown={handleMouseDown}>
-        <div className="header-title">Terminal</div>
-        <button className="close-btn" onClick={onClose}>
-          X
-        </button>
+    <>
+      <div
+        ref={terminalRef}
+        className="terminal-window"
+        style={{
+          left: position.x,
+          top: position.y,
+          position: 'absolute',
+          width: `${dimensions.width}px`,
+          height: `${dimensions.height}px`,
+        }}
+      >
+        <div className="terminal-header" onMouseDown={handleMouseDown}>
+          <div className="header-title">Terminal</div>
+          <button className="close-btn" onClick={onClose}>
+            X
+          </button>
+        </div>
+        <div className="terminal-body" ref={terminalBodyRef}>
+          {logs.map((line, index) => (
+            <div key={index} className="terminal-line">
+              {line.split('\n').map((part, i) => {
+                if (part.trim().startsWith('>')) {
+                  return (
+                    <React.Fragment key={i}>
+                      <span className="terminal-command">{part}</span>
+                      <br />
+                    </React.Fragment>
+                  );
+                } else {
+                  return (
+                    <React.Fragment key={i}>
+                      {part}
+                      <br />
+                    </React.Fragment>
+                  );
+                }
+              })}
+            </div>
+          ))}
+        </div>
+        <div className="terminal-input">
+          <span className="prompt">C:\&gt;</span>
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            autoFocus
+            placeholder="Enter command..."
+          />
+        </div>
+        <div className="resize-handle" onMouseDown={handleResizeMouseDown} />
       </div>
-      <div className="terminal-body" ref={terminalBodyRef}>
-        {logs.map((line, index) => (
-          <div key={index} className="terminal-line">
-            {line.split('\n').map((part, i) => {
-              if (part.trim().startsWith('>')) {
-                return (
-                  <React.Fragment key={i}>
-                    <span className="terminal-command">{part}</span>
-                    <br />
-                  </React.Fragment>
-                );
-              } else {
-                return (
-                  <React.Fragment key={i}>
-                    {part}
-                    <br />
-                  </React.Fragment>
-                );
-              }
-            })}
-          </div>
-        ))}
-      </div>
-      <div className="terminal-input">
-        <span className="prompt">C:\&gt;</span>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          autoFocus
-          placeholder="Enter command..."
+
+      {popups.map((popup) => (
+        <PopupWindow
+          key={popup.id}
+          title={popup.title}
+          content={popup.content}
+          onClose={() => setPopups((prev) => prev.filter((p) => p.id !== popup.id))}
         />
-      </div>
-      <div className="resize-handle" onMouseDown={handleResizeMouseDown} />
-    </div>
+      ))}
+    </>
   );
 };
 
