@@ -37,6 +37,10 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
     initialHeight: dimensions.height,
   });
 
+  // Global highest z-index and terminal's z-index
+  const [highestZ, setHighestZ] = useState(1);
+  const [terminalZ, setTerminalZ] = useState(1);
+
   // Center the terminal when the component mounts or window resizes
   useEffect(() => {
     const updatePosition = () => {
@@ -65,10 +69,15 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (dragging) {
-        setPosition({
-          x: e.clientX - offset.x,
-          y: e.clientY - offset.y,
-        });
+        const newX = Math.min(
+          Math.max(e.clientX - offset.x, 0),
+          window.innerWidth - dimensions.width
+        );
+        const newY = Math.min(
+          Math.max(e.clientY - offset.y, 0),
+          window.innerHeight - dimensions.height
+        );
+        setPosition({ x: newX, y: newY });
       }
       if (resizing) {
         const deltaX = e.clientX - resizingDataRef.current.startX;
@@ -94,7 +103,7 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [dragging, offset, resizing]);
+  }, [dragging, offset, resizing, dimensions]);
 
   // Handle resizing start from the resize handle
   const handleResizeMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -114,6 +123,15 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
       terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
     }
   }, [logs]);
+
+  // When the main terminal is clicked, bring it to front.
+  const bringTerminalToFront = () => {
+    setHighestZ((prev) => {
+      const newZ = prev + 1;
+      setTerminalZ(newZ);
+      return newZ;
+    });
+  };
 
   // Handle commands
   const handleCommand = (command: string) => {
@@ -140,6 +158,8 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
         break;
       case 'about': {
         const id = popupCounter;
+        // Assign popup a zIndex greater than the current highest.
+        const newZ = highestZ + 1;
         setPopups((prev) => [
           ...prev,
           {
@@ -152,14 +172,17 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
                 <p>My interests include UI/UX design and creating dynamic user experiences.</p>
               </>
             ),
+            zIndex: newZ,
           },
         ]);
         setPopupCounter((prev) => prev + 1);
+        setHighestZ(newZ);
         response = 'Opening About page...';
         break;
       }
       case 'projects': {
         const id = popupCounter;
+        const newZ = highestZ + 1;
         setPopups((prev) => [
           ...prev,
           {
@@ -176,14 +199,17 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
                 </ul>
               </>
             ),
+            zIndex: newZ,
           },
         ]);
         setPopupCounter((prev) => prev + 1);
+        setHighestZ(newZ);
         response = 'Opening Projects page...';
         break;
       }
       case 'contact': {
         const id = popupCounter;
+        const newZ = highestZ + 1;
         setPopups((prev) => [
           ...prev,
           {
@@ -200,9 +226,11 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
                 </ul>
               </>
             ),
+            zIndex: newZ,
           },
         ]);
         setPopupCounter((prev) => prev + 1);
+        setHighestZ(newZ);
         response = 'Opening Contact page...';
         break;
       }
@@ -220,17 +248,34 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
     }
   };
 
+  // Bring a popup to front when clicked.
+  const bringPopupToFront = (id: number) => {
+    setPopups((prev) => {
+      const updated = prev.map((p) => {
+        if (p.id === id) {
+          const newZ = highestZ + 1;
+          setHighestZ(newZ);
+          return { ...p, zIndex: newZ };
+        }
+        return p;
+      });
+      return updated;
+    });
+  };
+
   return (
     <>
       <div
         ref={terminalRef}
         className="terminal-window"
+        onMouseDown={bringTerminalToFront} // Bring terminal to front on click.
         style={{
           left: position.x,
           top: position.y,
           position: 'absolute',
           width: `${dimensions.width}px`,
           height: `${dimensions.height}px`,
+          zIndex: terminalZ, // set terminal's z-index
         }}
       >
         <div className="terminal-header" onMouseDown={handleMouseDown}>
@@ -279,9 +324,14 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
       {popups.map((popup) => (
         <PopupWindow
           key={popup.id}
+          id={popup.id}
           title={popup.title}
           content={popup.content}
-          onClose={() => setPopups((prev) => prev.filter((p) => p.id !== popup.id))}
+          zIndex={popup.zIndex} // pass the zIndex value
+          onClose={() =>
+            setPopups((prev) => prev.filter((p) => p.id !== popup.id))
+          }
+          onMouseDown={() => bringPopupToFront(popup.id)}
         />
       ))}
     </>
