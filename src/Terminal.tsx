@@ -227,12 +227,18 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
             content: (
               <>
                 <h1>Contact Me</h1>
-                <p>Feel free to reach out via the following channels:</p>
+                <p>Feel free to reach out via the following links:</p>
+                
+                <div className="contact-links">
+
                 <ul>
-                  <li>Email: <a href="mailto:email@example.com">email@example.com</a></li>
-                  <li>LinkedIn: <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noreferrer">My LinkedIn</a></li>
-                  <li>GitHub: <a href="https://github.com/yourprofile" target="_blank" rel="noreferrer">My GitHub</a></li>
+                  <li>Email: <a href="mailto:d3r3ky3@gmail.com">d3r3ky3@gmail.com</a></li>
+                  <li>LinkedIn: <a href="https://www.linkedin.com/in/derek-ye-42bb80298/" target="_blank" rel="noreferrer">My profile</a></li>
+                  <li>GitHub: <a href="https://github.com/derekyeeyee" target="_blank" rel="noreferrer">My GitHub</a></li>
                 </ul>
+
+                </div>
+
               </>
             ),
             zIndex: newZ,

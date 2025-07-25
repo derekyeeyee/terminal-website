@@ -119,4 +119,8 @@
     background: rgba(255, 255, 255, 0.3);
     user-select: none;       /* Standard */
     -webkit-user-select: none; /* Safari */
+  }
+  
+  .contact-links a {
+  color: #22c55e;
 }
