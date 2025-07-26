@@ -124,3 +124,7 @@
   .contact-links a {
   color: #22c55e;
 }
+
+.project-list li {
+  margin-bottom: 1em;
+}

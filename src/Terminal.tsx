@@ -197,11 +197,12 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
             content: (
               <>
                 <h1>Projects</h1>
-                <p>Here are some featured projects:</p>
-                <ul>
-                  <li><strong>Project A</strong>: A web app for task management and productivity.</li>
-                  <li><strong>Project B</strong>: An innovative solution for e-commerce platforms.</li>
-                  <li><strong>Project C</strong>: A mobile-friendly social networking site.</li>
+                <p>Here are some projects I've made contributions to:</p>
+                <ul className="project-list">
+
+                  <li><strong>WheelScore</strong>: A web-based tool using Next.js, Tailwind CSS, and Python to evaluate the wheelchair accessibility of user uploaded images using Gemini API calls.</li>
+                  <li><strong>Dextra Tools</strong>: Added extra functionality to a Chrome extension based browser agent using an MCP server and web sockets.</li>
+                  
                 </ul>
               </>
             ),
@@ -253,7 +254,10 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
         break;
       }
       default:
-        response = `Command not recognized: ${command}`;
+        response = 
+        '\n' +
+       `Command not recognized: ${command}`+
+        '\n';
     }
 
     setLogs((prev) => [...prev, `> ${command}`, response]);
