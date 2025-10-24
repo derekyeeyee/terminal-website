@@ -15,7 +15,7 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
 
   const [logs, setLogs] = useState<string[]>(initialLogs);
   const [input, setInput] = useState('');
-  const [popups, setPopups] = useState<{ id: number; title: string; content: React.ReactNode }[]>([]);
+  const [popups, setPopups] = useState<{ id: number; title: string; content: React.ReactNode, zIndex: number }[]>([]);
   const [popupCounter, setPopupCounter] = useState(0);
 
   // Ref for the terminal window and body (for auto scrolling)
@@ -179,11 +179,11 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
         ]);
         setPopupCounter((prev) => prev + 1);
         setHighestZ(newZ);
-        response = 
-        '\n' +
-        'Opening About page...' +
-        '\n';
-        
+        response =
+          '\n' +
+          'Opening About page...' +
+          '\n';
+
         break;
       }
       case 'projects': {
@@ -202,7 +202,7 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
 
                   <li><strong>WheelScore</strong>: A web-based tool using Next.js, Tailwind CSS, and Python to evaluate the wheelchair accessibility of user uploaded images using Gemini API calls.</li>
                   <li><strong>Dextra Tools</strong>: Added extra functionality to a Chrome extension based browser agent using an MCP server and web sockets.</li>
-                  
+
                 </ul>
               </>
             ),
@@ -211,10 +211,10 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
         ]);
         setPopupCounter((prev) => prev + 1);
         setHighestZ(newZ);
-        response = 
-        '\n' +
-        'Opening Projects page...' +
-        '\n';
+        response =
+          '\n' +
+          'Opening Projects page...' +
+          '\n';
         break;
       }
       case 'contact': {
@@ -229,14 +229,14 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
               <>
                 <h1>Contact Me</h1>
                 <p>Feel free to reach out via the following links:</p>
-                
+
                 <div className="contact-links">
 
-                <ul>
-                  <li>Email: <a href="mailto:d3r3ky3@gmail.com">d3r3ky3@gmail.com</a></li>
-                  <li>LinkedIn: <a href="https://www.linkedin.com/in/derek-ye-42bb80298/" target="_blank" rel="noreferrer">My profile</a></li>
-                  <li>GitHub: <a href="https://github.com/derekyeeyee" target="_blank" rel="noreferrer">My GitHub</a></li>
-                </ul>
+                  <ul>
+                    <li>Email: <a href="mailto:d3r3ky3@gmail.com">d3r3ky3@gmail.com</a></li>
+                    <li>LinkedIn: <a href="https://www.linkedin.com/in/derek-ye-42bb80298/" target="_blank" rel="noreferrer">My profile</a></li>
+                    <li>GitHub: <a href="https://github.com/derekyeeyee" target="_blank" rel="noreferrer">My GitHub</a></li>
+                  </ul>
 
                 </div>
 
@@ -247,17 +247,17 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
         ]);
         setPopupCounter((prev) => prev + 1);
         setHighestZ(newZ);
-        response = 
-        '\n' +
-        'Opening Contact page...' +
-        '\n';
+        response =
+          '\n' +
+          'Opening Contact page...' +
+          '\n';
         break;
       }
       default:
-        response = 
-        '\n' +
-       `Command not recognized: ${command}`+
-        '\n';
+        response =
+          '\n' +
+          `Command not recognized: ${command}` +
+          '\n';
     }
 
     setLogs((prev) => [...prev, `> ${command}`, response]);

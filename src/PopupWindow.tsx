@@ -10,7 +10,7 @@ interface PopupWindowProps {
   onMouseDown: () => void;
 }
 
-const PopupWindow: React.FC<PopupWindowProps> = ({ id, title, content, zIndex, onClose, onMouseDown }) => {
+const PopupWindow: React.FC<PopupWindowProps> = ({ title, content, zIndex, onClose, onMouseDown }) => {
   const [position, setPosition] = useState({
     x: window.innerWidth / 2 - 300,
     y: window.innerHeight / 2 - 200,
