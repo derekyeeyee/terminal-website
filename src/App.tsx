@@ -16,8 +16,8 @@ function App() {
         <Terminal onClose={handleCloseTerminal} />
       ) : (
         <div className="terminal-closed">
-          <h2>Terminal Closed</h2>
-          <button onClick={() => setShowTerminal(true)}>Reopen Terminal</button>
+          <h2>you closed the terminal :(</h2>
+          <button onClick={() => setShowTerminal(true)}>open the terminal again!</button>
         </div>
       )}
     </div>

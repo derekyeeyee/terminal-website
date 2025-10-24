@@ -8,7 +8,7 @@ interface TerminalProps {
 
 const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
   const initialLogs = [
-    'Welcome to My Portfolio!\n',
+    'Hello! My name is Derek, welcome to my portfolio!\n',
     'Type "help" for available commands.',
     'Feel free to drag me (the terminal) around or resize me for visibility :)\n',
   ];
