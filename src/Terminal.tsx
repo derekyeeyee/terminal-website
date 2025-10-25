@@ -170,8 +170,11 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
             content: (
               <>
                 <h1>About Me</h1>
-                <p>I am a passionate developer with experience in full-stack development. I specialize in building modern web applications using React, Node.js, and more.</p>
-                <p>My interests include UI/UX design and creating dynamic user experiences.</p>
+                <p>Hello! My name is Derek Ye. I am currently enrolled at San Francisco State University studying Computer Science.</p>
+                <p>I have undertaken multiple full stack roles in numerous group projects. I am proficient in Python, Java, C++, and am
+                  comfortable with general web development frameworks.</p>
+                <p>Outside of software development, I enjoy listening to music and flipping butterfly knives. I love playing video games as well!</p>
+                <p>Thank you for reading about me, please navigate to my contact page if you would like to chat!</p>
               </>
             ),
             zIndex: newZ,
@@ -202,6 +205,7 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
 
                   <li><strong>WheelScore</strong>: A web-based tool using Next.js, Tailwind CSS, and Python to evaluate the wheelchair accessibility of user uploaded images using Gemini API calls.</li>
                   <li><strong>Dextra Tools</strong>: Added extra functionality to a Chrome extension based browser agent using an MCP server and web sockets.</li>
+                  <li><strong>SFSU Unofficial Tutoring Website</strong>: Worked as a backend lead on a school tutoring website. Implemented SQL databases and handled data logistics.</li>
 
                 </ul>
               </>
@@ -234,8 +238,8 @@ const Terminal: React.FC<TerminalProps> = ({ onClose }) => {
 
                   <ul>
                     <li>Email: <a href="mailto:d3r3ky3@gmail.com">d3r3ky3@gmail.com</a></li>
-                    <li>LinkedIn: <a href="https://www.linkedin.com/in/derek-ye-42bb80298/" target="_blank" rel="noreferrer">My profile</a></li>
-                    <li>GitHub: <a href="https://github.com/derekyeeyee" target="_blank" rel="noreferrer">My GitHub</a></li>
+                    <li>LinkedIn: <a href="https://www.linkedin.com/in/derek-ye-42bb80298/" target="_blank" rel="noreferrer">Derek Ye</a></li>
+                    <li>GitHub: <a href="https://github.com/derekyeeyee" target="_blank" rel="noreferrer">derekyeeyee</a></li>
                   </ul>
 
                 </div>
